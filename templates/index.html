@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Image Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Gemini Image Generator</h1>
+        <div class="form-container">
+            <input type="text" id="prompt-input" placeholder="Enter a prompt to generate an image">
+            <button id="generate-btn">Generate Image</button>
+        </div>
+        <div class="image-container">
+            <img id="generated-image" src="" alt="Generated Image">
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
