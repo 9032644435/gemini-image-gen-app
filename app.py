@@ -1,19 +1,17 @@
 import os
-import requests
 from flask import Flask, render_template, request, jsonify
 from PIL import Image
 from io import BytesIO
-import vertexai
-from vertexai.preview.generative_models import GenerativeModel, Part
+import google.generativeai as genai
 import base64
 
 app = Flask(__name__)
 
-# Initialize Vertex AI
-vertexai.init(project="gemini-image-generator-420017", location="us-central1")
+# Configure the generative AI client
+genai.configure(api_key=os.environ["API_KEY"])
 
 # Load the generative model
-model = GenerativeModel("gemini-pro-vision")
+model = genai.GenerativeModel("gemini-2.5-flash-image")
 
 @app.route('/')
 def index():
@@ -28,19 +26,12 @@ def generate_image():
         if not prompt:
             return jsonify({'error': 'Prompt is required'}), 400
 
-        # Generate the image using Vertex AI
-        response = model.generate_content(
-            [f"Generate an image of: {prompt}"],
-            generation_config={
-                "max_output_tokens": 2048,
-                "temperature": 0.4,
-                "top_p": 1,
-                "top_k": 32,
-            },
-        )
+        # Generate the image using the Gemini model
+        response = model.generate_content(f"Generate an image of: {prompt}")
 
-        # Decode the base64 image
-        image_data = base64.b64decode(response.candidates[0].content.parts[0].inline_data.data)
+        # Assuming the response contains the image data in a supported format
+        # This part might need adjustment based on the actual response structure
+        image_data = response.candidates[0].content.parts[0].inline_data.data
 
         # Create the directory if it doesn't exist
         if not os.path.exists("static/generated-images"):
