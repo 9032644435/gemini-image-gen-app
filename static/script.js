@@ -17,7 +17,7 @@ generateBtn.addEventListener('click', async () => {
 
             if (response.ok) {
                 const data = await response.json();
-                generatedImage.src = data.image_url;
+                generatedImage.src = data.url;
             } else {
                 const errorData = await response.json();
                 alert(`Error: ${errorData.error}`);
