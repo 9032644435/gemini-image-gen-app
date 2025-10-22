@@ -15,7 +15,7 @@ env_variables:
   # (less secure) or preferably using Secret Manager (more secure).
   # For now, to get started, you can paste it directly,
   # but replace it with Secret Manager integration later for production.
-  GEMINI_API_KEY: 'YOUR_ACTUAL_API_KEY_HERE'
+  GEMINI_API_KEY: 'AIzaSyD0Aozm7OVZK8_kCeRbpUe_mQCD6h6Y03I'
   # Example of how to use Secret Manager (replace placeholders)
   # GEMINI_API_SECRET_KEY: 'secret-manager-key-reference' # Reference a key stored securely
 
