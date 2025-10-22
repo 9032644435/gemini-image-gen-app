@@ -1,0 +1,39 @@
+# Specifies the runtime environment for App Engine
+runtime: python311 # Use the Python 3.11 Standard environment
+
+# Tells App Engine how to start your web server.
+# It uses Gunicorn automatically, similar to Cloud Run's CMD.
+# The variable $PORT is automatically set by App Engine.
+entrypoint: gunicorn -b :$PORT app:app
+
+# Specifies instance class for scaling (optional, F1 is default free tier)
+instance_class: F1
+
+# Define environment variables (including secrets)
+env_variables:
+  # You MUST set the GEMINI_API_KEY value either directly here
+  # (less secure) or preferably using Secret Manager (more secure).
+  # For now, to get started, you can paste it directly,
+  # but replace it with Secret Manager integration later for production.
+  GEMINI_API_KEY: 'YOUR_ACTUAL_API_KEY_HERE'
+  # Example of how to use Secret Manager (replace placeholders)
+  # GEMINI_API_SECRET_KEY: 'secret-manager-key-reference' # Reference a key stored securely
+
+# Handler for static files (CSS, JS, generated images)
+handlers:
+  # Serve files from the static/generated-images folder over HTTP
+- url: /static/generated-images
+  static_dir: static/generated-images
+
+  # Serve files from the static folder over HTTP
+- url: /static
+  static_dir: static
+
+  # All other routes are handled by the Flask application script.
+- url: /.*
+  script: auto
+
+# Automatic scaling settings (optional, defaults are reasonable)
+automatic_scaling:
+  min_instances: 0
+  max_instances: 1 # Keep costs low initially
